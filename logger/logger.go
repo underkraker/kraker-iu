@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/underkraker/kraker-iu/config"
 	"github.com/op/go-logging"
+	"github.com/underkraker/kraker-iu/config"
 )
 
 const (

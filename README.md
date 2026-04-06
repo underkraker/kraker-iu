@@ -51,4 +51,4 @@ For full documentation, please visit the [Project repository](https://github.com
 
 ## Stargazers over Time
 
-[![Stargazers over time](https://starchart.cc/underkraker/kraker-ui.svg?variant=adaptive)](https://starchart.cc/underkraker/kraker-ui)
+[![Stargazers over time](https://starchart.cc/underkraker/kraker-iu.svg?variant=adaptive)](https://starchart.cc/underkraker/kraker-iu)

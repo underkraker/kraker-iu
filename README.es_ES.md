@@ -51,4 +51,4 @@ Para documentación completa, visita el [Repositorio del proyecto](https://githu
 
 ## Estrellas a lo Largo del Tiempo
 
-[![Estrellas a lo largo del tiempo](https://starchart.cc/underkraker/kraker-ui.svg?variant=adaptive)](https://starchart.cc/underkraker/kraker-ui)
+[![Estrellas a lo largo del tiempo](https://starchart.cc/underkraker/kraker-iu.svg?variant=adaptive)](https://starchart.cc/underkraker/kraker-iu)

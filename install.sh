@@ -766,7 +766,8 @@ install_x-ui() {
     
     # Download resources
     if [ $# == 0 ]; then
-        tag_version=$(curl -Ls "https://api.github.com/repos/underkraker/kraker-iu/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        # Modificado para detectar cualquier versión (incluyendo pre-releases)
+    tag_version=$(curl -Ls "https://api.github.com/repos/underkraker/kraker-iu/releases" | grep '"tag_name":' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$tag_version" ]]; then
             echo -e "${yellow}Intentando obtener la versión con IPv4...${plain}"
             tag_version=$(curl -4 -Ls "https://api.github.com/repos/underkraker/kraker-iu/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -839,14 +840,14 @@ install_x-ui() {
     # Etckeeper compatibility
     if [ -d "/etc/.git" ]; then
         if [ -f "/etc/.gitignore" ]; then
-            if ! grep -q "x-ui/x-ui.db" "/etc/.gitignore"; then
+            if ! grep -q "x-ui/kraker-iu.db" "/etc/.gitignore"; then
                 echo "" >> "/etc/.gitignore"
-                echo "x-ui/x-ui.db" >> "/etc/.gitignore"
-                echo -e "${green}Added x-ui.db to /etc/.gitignore for etckeeper${plain}"
+                echo "x-ui/kraker-iu.db" >> "/etc/.gitignore"
+                echo -e "${green}Added kraker-iu.db to /etc/.gitignore for etckeeper${plain}"
             fi
         else
-            echo "x-ui/x-ui.db" > "/etc/.gitignore"
-            echo -e "${green}Created /etc/.gitignore and added x-ui.db for etckeeper${plain}"
+            echo "x-ui/kraker-iu.db" > "/etc/.gitignore"
+            echo -e "${green}Created /etc/.gitignore and added kraker-iu.db for etckeeper${plain}"
         fi
     fi
     

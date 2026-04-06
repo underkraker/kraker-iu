@@ -1,4 +1,4 @@
-name: Release 3X-UI
+name: Release KRAKER X-UI
 
 on:
   workflow_dispatch:
@@ -83,7 +83,7 @@ jobs:
           go-version-file: go.mod
           check-latest: true
 
-      - name: Build 3X-UI
+      - name: Build KRAKER X-UI
         run: |
           export CGO_ENABLED=1
           export GOOS=linux
@@ -219,7 +219,7 @@ jobs:
             mingw-w64-x86_64-sqlite3
             mingw-w64-x86_64-pkg-config
 
-      - name: Build 3X-UI for Windows (CGO)
+      - name: Build KRAKER X-UI for Windows (CGO)
         shell: msys2 {0}
         run: |
           export PATH="/c/hostedtoolcache/windows/go/$(ls /c/hostedtoolcache/windows/go | sort -V | tail -n1)/x64/bin:$PATH"

@@ -1,11 +1,11 @@
-// Package model defines the database models and data structures used by the 3x-ui panel.
+// Package model defines the database models and data structures used by the KRAKER X-UI panel.
 package model
 
 import (
 	"fmt"
 
-	"github.com/mhsanaei/3x-ui/v2/util/json_util"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/util/json_util"
+	"github.com/underkraker/kraker-iu/xray"
 )
 
 // Protocol represents the protocol type for Xray inbounds.
@@ -23,7 +23,7 @@ const (
 	WireGuard   Protocol = "wireguard"
 )
 
-// User represents a user account in the 3x-ui panel.
+// User represents a user account in the KRAKER X-UI panel.
 type User struct {
 	Id       int    `json:"id" gorm:"primaryKey;autoIncrement"`
 	Username string `json:"username"`
@@ -97,7 +97,7 @@ func (i *Inbound) GenXrayInboundConfig() *xray.InboundConfig {
 	}
 }
 
-// Setting stores key-value configuration settings for the 3x-ui panel.
+// Setting stores key-value configuration settings for the KRAKER X-UI panel.
 type Setting struct {
 	Id    int    `json:"id" form:"id" gorm:"primaryKey;autoIncrement"`
 	Key   string `json:"key" form:"key"`

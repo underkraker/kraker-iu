@@ -5,7 +5,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v2/logger"
+	"github.com/underkraker/kraker-iu/logger"
 )
 
 // PanelService provides business logic for panel management operations.

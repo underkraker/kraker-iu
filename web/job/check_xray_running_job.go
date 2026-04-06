@@ -1,10 +1,10 @@
-// Package job provides background job implementations for the 3x-ui web panel,
+// Package job provides background job implementations for the KRAKER X-UI web panel,
 // including traffic monitoring, system checks, and periodic maintenance tasks.
 package job
 
 import (
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/web/service"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/web/service"
 )
 
 // CheckXrayRunningJob monitors Xray process health and restarts it if it crashes.

@@ -6,8 +6,8 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/xray"
 
 	"go.uber.org/atomic"
 )

@@ -1,5 +1,5 @@
 // Package database provides database initialization, migration, and management utilities
-// for the 3x-ui panel using GORM with SQLite.
+// for the KRAKER X-UI panel using GORM with SQLite.
 package database
 
 import (
@@ -12,10 +12,10 @@ import (
 	"path"
 	"slices"
 
-	"github.com/mhsanaei/3x-ui/v2/config"
-	"github.com/mhsanaei/3x-ui/v2/database/model"
-	"github.com/mhsanaei/3x-ui/v2/util/crypto"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/config"
+	"github.com/underkraker/kraker-iu/database/model"
+	"github.com/underkraker/kraker-iu/util/crypto"
+	"github.com/underkraker/kraker-iu/xray"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

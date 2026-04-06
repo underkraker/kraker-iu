@@ -4,8 +4,8 @@ import (
 	_ "embed"
 	"encoding/json"
 
-	"github.com/mhsanaei/3x-ui/v2/util/common"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/util/common"
+	"github.com/underkraker/kraker-iu/xray"
 )
 
 // XraySettingService provides business logic for Xray configuration management.

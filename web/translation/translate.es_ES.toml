@@ -99,7 +99,7 @@
 
 [pages.login]
 "hello" = "Hola"
-"title" = "Bienvenido"
+"title" = "Bienvenido a KRAKER X-UI"
 "loginAgain" = "El límite de tiempo de inicio de sesión ha expirado. Por favor, inicia sesión nuevamente."
 
 [pages.login.toasts]
@@ -667,7 +667,7 @@
 "report" = "🕰 Informes programados: {{ .RunTime }}\r\n"
 "datetime" = "⏰ Fecha y Hora: {{ .DateTime }}\r\n"
 "hostname" = "💻 Nombre del Host: {{ .Hostname }}\r\n"
-"version" = "🚀 Versión de X-UI: {{ .Version }}\r\n"
+"version" = "🚀 Versión de KRAKER X-UI: {{ .Version }}\r\n"
 "xrayVersion" = "📡 Versión de Xray: {{ .XrayVersion }}\r\n"
 "ipv6" = "🌐 IPv6: {{ .IPv6 }}\r\n"
 "ipv4" = "🌐 IPv4: {{ .IPv4 }}\r\n"

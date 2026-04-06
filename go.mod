@@ -1,4 +1,4 @@
-module github.com/mhsanaei/3x-ui/v2
+module github.com/underkraker/kraker-iu
 
 go 1.26.1
 

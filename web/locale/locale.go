@@ -1,4 +1,4 @@
-// Package locale provides internationalization (i18n) support for the 3x-ui web panel,
+// Package locale provides internationalization (i18n) support for the KRAKER X-UI web panel,
 // including translation loading, localization, and middleware for web and bot interfaces.
 package locale
 
@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mhsanaei/3x-ui/v2/logger"
+	"github.com/underkraker/kraker-iu/logger"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -37,8 +37,8 @@ type SettingService interface {
 
 // InitLocalizer initializes the internationalization system with embedded translation files.
 func InitLocalizer(i18nFS embed.FS, settingService SettingService) error {
-	// set default bundle to English
-	i18nBundle = i18n.NewBundle(language.MustParse("en-US"))
+	// set default bundle to Spanish
+	i18nBundle = i18n.NewBundle(language.MustParse("es-ES"))
 	i18nBundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
 
 	// parse files
@@ -124,7 +124,7 @@ func LocalizerMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Ensure bundle is initialized so creating a Localizer won't panic
 		if i18nBundle == nil {
-			i18nBundle = i18n.NewBundle(language.MustParse("en-US"))
+			i18nBundle = i18n.NewBundle(language.MustParse("es-ES"))
 			i18nBundle.RegisterUnmarshalFunc("toml", toml.Unmarshal)
 			// Try lazy-load from disk when running sub server without InitLocalizer
 			if err := loadTranslationsFromDisk(i18nBundle); err != nil {

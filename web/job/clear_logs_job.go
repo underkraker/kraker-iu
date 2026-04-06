@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/xray"
 )
 
 // ClearLogsJob clears old log files to prevent disk space issues.

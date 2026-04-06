@@ -20,12 +20,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v2/config"
-	"github.com/mhsanaei/3x-ui/v2/database"
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/util/common"
-	"github.com/mhsanaei/3x-ui/v2/util/sys"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/config"
+	"github.com/underkraker/kraker-iu/database"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/util/common"
+	"github.com/underkraker/kraker-iu/util/sys"
+	"github.com/underkraker/kraker-iu/xray"
 
 	"github.com/google/uuid"
 	"github.com/shirou/gopsutil/v4/cpu"

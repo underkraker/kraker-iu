@@ -2,8 +2,8 @@
 package websocket
 
 import (
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/web/global"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/web/global"
 )
 
 // GetHub returns the global WebSocket hub instance

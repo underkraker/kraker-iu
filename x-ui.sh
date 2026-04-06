@@ -51,7 +51,7 @@ is_domain() {
 }
 
 # check root
-[[ $EUID -ne 0 ]] && LOGE "ERROR: You must be root to run this script! \n" && exit 1
+[[ $EUID -ne 0 ]] && LOGE "ERROR: ¡Debes ser root para ejecutar este script! \n" && exit 1
 
 # Check OS and set release variable
 if [[ -f /etc/os-release ]]; then
@@ -64,7 +64,7 @@ else
     echo "Failed to check the system OS, please contact the author!" >&2
     exit 1
 fi
-echo "The OS release is: $release"
+echo "La versión del SO es: $release"
 
 os_version=""
 os_version=$(grep "^VERSION_ID" /etc/os-release | cut -d '=' -f2 | tr -d '"' | tr -d '.')
@@ -94,7 +94,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "Restart the panel, Attention: Restarting the panel will also restart xray" "y"
+    confirm "Reiniciar el panel. Atención: Reiniciar el panel también reiniciará xray" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -103,12 +103,12 @@ confirm_restart() {
 }
 
 before_show_menu() {
-    echo && echo -n -e "${yellow}Press enter to return to the main menu: ${plain}" && read -r temp
+    echo && echo -n -e "${yellow}Presione Enter para volver al menú principal: ${plain}" && read -r temp
     show_menu
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/main/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/underkraker/kraker-iu/main/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -119,57 +119,57 @@ install() {
 }
 
 update() {
-    confirm "This function will update all x-ui components to the latest version, and the data will not be lost. Do you want to continue?" "y"
+    confirm "Esta función actualizará todos los componentes de x-ui a la última versión, y los datos no se perderán. ¿Deseas continuar?" "y"
     if [[ $? != 0 ]]; then
-        LOGE "Cancelled"
+        LOGE "Cancelado"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.githubusercontent.com/MHSanaei/3x-ui/main/update.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/underkraker/kraker-iu/main/update.sh)
     if [[ $? == 0 ]]; then
-        LOGI "Update is complete, Panel has automatically restarted "
+        LOGI "Actualización completada, el Panel se ha reiniciado automáticamente"
         before_show_menu
     fi
 }
 
 update_menu() {
-    echo -e "${yellow}Updating Menu${plain}"
-    confirm "This function will update the menu to the latest changes." "y"
+    echo -e "${yellow}Actualizando Menú${plain}"
+    confirm "¿Esta función actualizará el menú a los últimos cambios?" "y"
     if [[ $? != 0 ]]; then
-        LOGE "Cancelled"
+        LOGE "Cancelado"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
         return 0
     fi
 
-    curl -fLRo /usr/bin/x-ui https://raw.githubusercontent.com/MHSanaei/3x-ui/main/x-ui.sh
+    curl -fLRo /usr/bin/x-ui https://raw.githubusercontent.com/underkraker/kraker-iu/main/x-ui.sh
     chmod +x ${xui_folder}/x-ui.sh
     chmod +x /usr/bin/x-ui
 
     if [[ $? == 0 ]]; then
-        echo -e "${green}Update successful. The panel has automatically restarted.${plain}"
+        echo -e "${green}Actualización exitosa. El panel se ha reiniciado automáticamente.${plain}"
         exit 0
     else
-        echo -e "${red}Failed to update the menu.${plain}"
+        echo -e "${red}Error al actualizar el menú.${plain}"
         return 1
     fi
 }
 
 legacy_version() {
-    echo -n "Enter the panel version (like 2.4.0):"
+    echo -n "Ingrese la versión del panel (ejemplo: 2.4.0):"
     read -r tag_version
 
     if [ -z "$tag_version" ]; then
-        echo "Panel version cannot be empty. Exiting."
+        echo "La versión del panel no puede estar vacía. Saliendo."
         exit 1
     fi
     # Use the entered panel version in the download link
-    install_command="bash <(curl -Ls "https://raw.githubusercontent.com/mhsanaei/3x-ui/v$tag_version/install.sh") v$tag_version"
+    install_command="bash <(curl -Ls \"https://raw.githubusercontent.com/kraker-iu/kraker-iu/v$tag_version/install.sh\") v$tag_version"
 
-    echo "Downloading and installing panel version $tag_version..."
+    echo "Descargando e instalando la versión $tag_version del panel..."
     eval $install_command
 }
 
@@ -180,7 +180,7 @@ delete_script() {
 }
 
 uninstall() {
-    confirm "Are you sure you want to uninstall the panel? xray will also uninstalled!" "n"
+    confirm "¿Estás seguro de que deseas desinstalar el panel? ¡xray también se desinstalará!" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -204,9 +204,9 @@ uninstall() {
     rm ${xui_folder}/ -rf
 
     echo ""
-    echo -e "Uninstalled Successfully.\n"
-    echo "If you need to install this panel again, you can use below command:"
-    echo -e "${green}bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)${plain}"
+    echo -e "Desinstalado con éxito.\n"
+    echo "Si necesita instalar este panel nuevamente, puede usar el siguiente comando:"
+    echo -e "${green}bash <(curl -Ls https://raw.githubusercontent.com/underkraker/kraker-iu/master/install.sh)${plain}"
     echo ""
     # Trap the SIGTERM signal
     trap delete_script SIGTERM
@@ -214,7 +214,7 @@ uninstall() {
 }
 
 reset_user() {
-    confirm "Are you sure to reset the username and password of the panel?" "n"
+    confirm "¿Estás seguro de restablecer el usuario y la contraseña del panel?" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -222,22 +222,22 @@ reset_user() {
         return 0
     fi
     
-    read -rp "Please set the login username [default is a random username]: " config_account
+    read -rp "Por favor, establezca el nombre de usuario [por defecto es uno aleatorio]: " config_account
     [[ -z $config_account ]] && config_account=$(gen_random_string 10)
-    read -rp "Please set the login password [default is a random password]: " config_password
+    read -rp "Por favor, establezca la contraseña [por defecto es una aleatoria]: " config_password
     [[ -z $config_password ]] && config_password=$(gen_random_string 18)
 
-    read -rp "Do you want to disable currently configured two-factor authentication? (y/n): " twoFactorConfirm
+    read -rp "¿Desea deshabilitar la autenticación de dos factores configurada actualmente? (y/n): " twoFactorConfirm
     if [[ $twoFactorConfirm != "y" && $twoFactorConfirm != "Y" ]]; then
         ${xui_folder}/x-ui setting -username "${config_account}" -password "${config_password}" -resetTwoFactor false >/dev/null 2>&1
     else
         ${xui_folder}/x-ui setting -username "${config_account}" -password "${config_password}" -resetTwoFactor true >/dev/null 2>&1
-        echo -e "Two factor authentication has been disabled."
+        echo -e "La autenticación de dos factores ha sido deshabilitada."
     fi
     
-    echo -e "Panel login username has been reset to: ${green} ${config_account} ${plain}"
-    echo -e "Panel login password has been reset to: ${green} ${config_password} ${plain}"
-    echo -e "${green} Please use the new login username and password to access the X-UI panel. Also remember them! ${plain}"
+    echo -e "El nombre de usuario ha sido restablecido a: ${green} ${config_account} ${plain}"
+    echo -e "La contraseña ha sido restablecida a: ${green} ${config_password} ${plain}"
+    echo -e "${green} Por favor, use los nuevos datos para acceder al panel KRAKER X-UI. ¡Recuérdelos! ${plain}"
     confirm_restart
 }
 
@@ -249,11 +249,11 @@ gen_random_string() {
 }
 
 reset_webbasepath() {
-    echo -e "${yellow}Resetting Web Base Path${plain}"
+    echo -e "${yellow}Restableciendo la Ruta Base Web${plain}"
 
-    read -rp "Are you sure you want to reset the web base path? (y/n): " confirm
+    read -rp "¿Está seguro de que desea restablecer la ruta base web? (y/n): " confirm
     if [[ $confirm != "y" && $confirm != "Y" ]]; then
-        echo -e "${yellow}Operation canceled.${plain}"
+        echo -e "${yellow}Operación cancelada.${plain}"
         return
     fi
 
@@ -262,13 +262,13 @@ reset_webbasepath() {
     # Apply the new web base path setting
     ${xui_folder}/x-ui setting -webBasePath "${config_webBasePath}" >/dev/null 2>&1
 
-    echo -e "Web base path has been reset to: ${green}${config_webBasePath}${plain}"
-    echo -e "${green}Please use the new web base path to access the panel.${plain}"
+    echo -e "La ruta base web se ha restablecido a: ${green}${config_webBasePath}${plain}"
+    echo -e "${green}Utilice la nueva ruta base web para acceder al panel.${plain}"
     restart
 }
 
 reset_config() {
-    confirm "Are you sure you want to reset all panel settings, Account data will not be lost, Username and password will not change" "n"
+    confirm "¿Está seguro de que desea restablecer todas las configuraciones del panel? Los datos de las cuentas no se perderán, el usuario y la contraseña no cambiarán." "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -276,14 +276,14 @@ reset_config() {
         return 0
     fi
     ${xui_folder}/x-ui setting -reset
-    echo -e "All panel settings have been reset to default."
+    echo -e "Todas las configuraciones del panel se han restablecido a los valores por defecto."
     restart
 }
 
 check_config() {
     local info=$(${xui_folder}/x-ui setting -show true)
     if [[ $? != 0 ]]; then
-        LOGE "get current settings error, please check logs"
+        LOGE "error al obtener la configuración actual, por favor revise los logs"
         show_menu
         return
     fi
@@ -306,37 +306,37 @@ check_config() {
             echo -e "${green}Access URL: https://${server_ip}:${existing_port}${existing_webBasePath}${plain}"
         fi
     else
-        echo -e "${red}⚠ WARNING: No SSL certificate configured!${plain}"
-        echo -e "${yellow}You can get a Let's Encrypt certificate for your IP address (valid ~6 days, auto-renews).${plain}"
-        read -rp "Generate SSL certificate for IP now? [y/N]: " gen_ssl
+        echo -e "${red}⚠ ADVERTENCIA: ¡No hay certificado SSL configurado!${plain}"
+        echo -e "${yellow}Puede obtener un certificado Let's Encrypt para su dirección IP (válido ~6 días, se renueva automáticamente).${plain}"
+        read -rp "¿Generar certificado SSL para la IP ahora? [y/N]: " gen_ssl
         if [[ "$gen_ssl" == "y" || "$gen_ssl" == "Y" ]]; then
             stop >/dev/null 2>&1
             ssl_cert_issue_for_ip
             if [[ $? -eq 0 ]]; then
-                echo -e "${green}Access URL: https://${server_ip}:${existing_port}${existing_webBasePath}${plain}"
+                echo -e "${green}URL de acceso: https://${server_ip}:${existing_port}${existing_webBasePath}${plain}"
                 # ssl_cert_issue_for_ip already restarts the panel, but ensure it's running
                 start >/dev/null 2>&1
             else
-                LOGE "IP certificate setup failed."
-                echo -e "${yellow}You can try again via option 19 (SSL Certificate Management).${plain}"
+                LOGE "Falló la configuración del certificado de IP."
+                echo -e "${yellow}Puede intentarlo de nuevo a través de la opción 19 (Gestión de Certificados SSL).${plain}"
                 start >/dev/null 2>&1
             fi
         else
-            echo -e "${yellow}Access URL: http://${server_ip}:${existing_port}${existing_webBasePath}${plain}"
-            echo -e "${yellow}For security, please configure SSL certificate using option 19 (SSL Certificate Management)${plain}"
+            echo -e "${yellow}URL de acceso: http://${server_ip}:${existing_port}${existing_webBasePath}${plain}"
+            echo -e "${yellow}Por seguridad, configure un certificado SSL usando la opción 19 (Gestión de Certificados SSL)${plain}"
         fi
     fi
 }
 
 set_port() {
-    echo -n "Enter port number[1-65535]: "
+    echo -n "Ingrese el número de puerto [1-65535]: "
     read -r port
     if [[ -z "${port}" ]]; then
         LOGD "Cancelled"
         before_show_menu
     else
         ${xui_folder}/x-ui setting -port ${port}
-        echo -e "The port is set, Please restart the panel now, and use the new port ${green}${port}${plain} to access web panel"
+        echo -e "El puerto ha sido configurado. Por favor, reinicie el panel ahora y use el nuevo puerto ${green}${port}${plain} para acceder al panel web."
         confirm_restart
     fi
 }
@@ -345,7 +345,7 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        LOGI "Panel is running, No need to start again, If you need to restart, please select restart"
+        LOGI "El panel ya está en ejecución, no es necesario iniciarlo de nuevo. Si necesita reiniciar, seleccione reiniciar."
     else
         if [[ $release == "alpine" ]]; then
             rc-service x-ui start
@@ -355,9 +355,9 @@ start() {
         sleep 2
         check_status
         if [[ $? == 0 ]]; then
-            LOGI "x-ui Started Successfully"
+            LOGI "KRAKER X-UI iniciado con éxito"
         else
-            LOGE "panel Failed to start, Probably because it takes longer than two seconds to start, Please check the log information later"
+            LOGE "El panel falló al iniciar, probablemente porque tarda más de dos segundos en arrancar. Por favor, revise la información de los logs más tarde."
         fi
     fi
 
@@ -370,7 +370,7 @@ stop() {
     check_status
     if [[ $? == 1 ]]; then
         echo ""
-        LOGI "Panel stopped, No need to stop again!"
+        LOGI "Panel detenido, ¡no es necesario detenerlo de nuevo!"
     else
         if [[ $release == "alpine" ]]; then
             rc-service x-ui stop
@@ -380,9 +380,9 @@ stop() {
         sleep 2
         check_status
         if [[ $? == 1 ]]; then
-            LOGI "x-ui and xray stopped successfully"
+            LOGI "KRAKER X-UI y xray detenidos con éxito"
         else
-            LOGE "Panel stop failed, Probably because the stop time exceeds two seconds, Please check the log information later"
+            LOGE "El panel falló al detenerse, probablemente porque el tiempo de parada supera los dos segundos. Por favor, revise la información de los logs más tarde."
         fi
     fi
 
@@ -400,9 +400,9 @@ restart() {
     sleep 2
     check_status
     if [[ $? == 0 ]]; then
-        LOGI "x-ui and xray Restarted successfully"
+        LOGI "KRAKER X-UI y xray reiniciados con éxito"
     else
-        LOGE "Panel restart failed, Probably because it takes longer than two seconds to start, Please check the log information later"
+        LOGE "El panel falló al reiniciar, probablemente porque tarda más de dos segundos en arrancar. Por favor, revise la información de los logs más tarde."
     fi
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -411,7 +411,7 @@ restart() {
 
 restart_xray() {
     systemctl reload x-ui
-    LOGI "xray-core Restart signal sent successfully, Please check the log information to confirm whether xray restarted successfully"
+    LOGI "Se envió la señal de reinicio a xray-core con éxito. Por favor, revise la información de los logs para confirmar si xray se reinició correctamente."
     sleep 2
     show_xray_status
     if [[ $# == 0 ]]; then
@@ -437,9 +437,9 @@ enable() {
         systemctl enable x-ui
     fi
     if [[ $? == 0 ]]; then
-        LOGI "x-ui Set to boot automatically on startup successfully"
+        LOGI "KRAKER X-UI configurado para iniciar automáticamente en el arranque con éxito"
     else
-        LOGE "x-ui Failed to set Autostart"
+        LOGE "Fallo al configurar el inicio automático de KRAKER X-UI"
     fi
 
     if [[ $# == 0 ]]; then
@@ -454,9 +454,9 @@ disable() {
         systemctl disable x-ui
     fi
     if [[ $? == 0 ]]; then
-        LOGI "x-ui Autostart Cancelled successfully"
+        LOGI "Inicio automático de KRAKER X-UI cancelado con éxito"
     else
-        LOGE "x-ui Failed to cancel autostart"
+        LOGE "Fallo al cancelar el inicio automático de KRAKER X-UI"
     fi
 
     if [[ $# == 0 ]]; then
@@ -604,14 +604,14 @@ enable_bbr() {
 }
 
 update_shell() {
-    curl -fLRo /usr/bin/x-ui -z /usr/bin/x-ui https://github.com/MHSanaei/3x-ui/raw/main/x-ui.sh
+    curl -fLRo /usr/bin/x-ui -z /usr/bin/x-ui https://github.com/underkraker/kraker-iu/raw/main/x-ui.sh
     if [[ $? != 0 ]]; then
         echo ""
         LOGE "Failed to download script, Please check whether the machine can connect Github"
         before_show_menu
     else
         chmod +x /usr/bin/x-ui
-        LOGI "Upgrade script succeeded, Please rerun the script"
+        LOGI "Script de actualización exitoso, por favor vuelva a ejecutar el script"
         before_show_menu
     fi
 }
@@ -661,7 +661,7 @@ check_uninstall() {
     check_status
     if [[ $? != 2 ]]; then
         echo ""
-        LOGE "Panel installed, Please do not reinstall"
+        LOGE "Panel instalado, por favor no reinstale"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -675,7 +675,7 @@ check_install() {
     check_status
     if [[ $? == 2 ]]; then
         echo ""
-        LOGE "Please install the panel first"
+        LOGE "Por favor, instale el panel primero"
         if [[ $# == 0 ]]; then
             before_show_menu
         fi
@@ -689,15 +689,15 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "Panel state: ${green}Running${plain}"
+        echo -e "Estado del panel: ${green}En ejecución${plain}"
         show_enable_status
         ;;
     1)
-        echo -e "Panel state: ${yellow}Not Running${plain}"
+        echo -e "Estado del panel: ${yellow}No está en ejecución${plain}"
         show_enable_status
         ;;
     2)
-        echo -e "Panel state: ${red}Not Installed${plain}"
+        echo -e "Estado del panel: ${red}No instalado${plain}"
         ;;
     esac
     show_xray_status
@@ -706,9 +706,9 @@ show_status() {
 show_enable_status() {
     check_enabled
     if [[ $? == 0 ]]; then
-        echo -e "Start automatically: ${green}Yes${plain}"
+        echo -e "Inicio automático: ${green}Sí${plain}"
     else
-        echo -e "Start automatically: ${red}No${plain}"
+        echo -e "Inicio automático: ${red}No${plain}"
     fi
 }
 
@@ -724,22 +724,22 @@ check_xray_status() {
 show_xray_status() {
     check_xray_status
     if [[ $? == 0 ]]; then
-        echo -e "xray state: ${green}Running${plain}"
+        echo -e "Estado de xray: ${green}En ejecución${plain}"
     else
-        echo -e "xray state: ${red}Not Running${plain}"
+        echo -e "Estado de xray: ${red}No está en ejecución${plain}"
     fi
 }
 
 firewall_menu() {
-    echo -e "${green}\t1.${plain} ${green}Install${plain} Firewall"
-    echo -e "${green}\t2.${plain} Port List [numbered]"
-    echo -e "${green}\t3.${plain} ${green}Open${plain} Ports"
-    echo -e "${green}\t4.${plain} ${red}Delete${plain} Ports from List"
-    echo -e "${green}\t5.${plain} ${green}Enable${plain} Firewall"
-    echo -e "${green}\t6.${plain} ${red}Disable${plain} Firewall"
-    echo -e "${green}\t7.${plain} Firewall Status"
-    echo -e "${green}\t0.${plain} Back to Main Menu"
-    read -rp "Choose an option: " choice
+    echo -e "${green}\t1.${plain} ${green}Instalar${plain} Firewall"
+    echo -e "${green}\t2.${plain} Lista de Puertos [numerada]"
+    echo -e "${green}\t3.${plain} ${green}Abrir${plain} Puertos"
+    echo -e "${green}\t4.${plain} ${red}Eliminar${plain} Puertos de la Lista"
+    echo -e "${green}\t5.${plain} ${green}Habilitar${plain} Firewall"
+    echo -e "${green}\t6.${plain} ${red}Deshabilitar${plain} Firewall"
+    echo -e "${green}\t7.${plain} Estado del Firewall"
+    echo -e "${green}\t0.${plain} Volver al Menú Principal"
+    read -rp "Elija una opción: " choice
     case "$choice" in
     0)
         show_menu
@@ -807,11 +807,11 @@ install_firewall() {
 
 open_ports() {
     # Prompt the user to enter the ports they want to open
-    read -rp "Enter the ports you want to open (e.g. 80,443,2053 or range 400-500): " ports
+    read -rp "Ingrese los puertos que desea abrir (ej. 80,443,2053 o rango 400-500): " ports
 
     # Check if the input is valid
     if ! [[ $ports =~ ^([0-9]+|[0-9]+-[0-9]+)(,([0-9]+|[0-9]+-[0-9]+))*$ ]]; then
-        echo "Error: Invalid input. Please enter a comma-separated list of ports or a range of ports (e.g. 80,443,2053 or 400-500)." >&2
+        echo "Error: Entrada inválida. Por favor, ingrese una lista de puertos separada por comas o un rango de puertos (ej. 80,443,2053 o 400-500)." >&2
         exit 1
     fi
 
@@ -832,7 +832,7 @@ open_ports() {
     done
 
     # Confirm that the ports are opened
-    echo "Opened the specified ports:"
+    echo "Puertos especificados abiertos:"
     for port in "${PORT_LIST[@]}"; do
         if [[ $port == *-* ]]; then
             start_port=$(echo $port | cut -d'-' -f1)
@@ -848,22 +848,22 @@ open_ports() {
 
 delete_ports() {
     # Display current rules with numbers
-    echo "Current UFW rules:"
+    echo "Reglas actuales de UFW:"
     ufw status numbered
 
     # Ask the user how they want to delete rules
-    echo "Do you want to delete rules by:"
-    echo "1) Rule numbers"
-    echo "2) Ports"
-    read -rp "Enter your choice (1 or 2): " choice
+    echo "¿Desea eliminar las reglas por:"
+    echo "1) Números de regla"
+    echo "2) Puertos"
+    read -rp "Ingrese su elección (1 o 2): " choice
 
     if [[ $choice -eq 1 ]]; then
         # Deleting by rule numbers
-        read -rp "Enter the rule numbers you want to delete (1, 2, etc.): " rule_numbers
+        read -rp "Ingrese los números de regla que desea eliminar (1, 2, etc.): " rule_numbers
 
         # Validate the input
         if ! [[ $rule_numbers =~ ^([0-9]+)(,[0-9]+)*$ ]]; then
-            echo "Error: Invalid input. Please enter a comma-separated list of rule numbers." >&2
+            echo "Error: Entrada inválida. Por favor, ingrese una lista de números de regla separada por comas." >&2
             exit 1
         fi
 
@@ -874,15 +874,15 @@ delete_ports() {
             ufw delete "$rule_number" || echo "Failed to delete rule number $rule_number"
         done
 
-        echo "Selected rules have been deleted."
+        echo "Las reglas seleccionadas han sido eliminadas."
 
     elif [[ $choice -eq 2 ]]; then
         # Deleting by ports
-        read -rp "Enter the ports you want to delete (e.g. 80,443,2053 or range 400-500): " ports
+        read -rp "Ingrese los puertos que desea eliminar (ej. 80,443,2053 o rango 400-500): " ports
 
         # Validate the input
         if ! [[ $ports =~ ^([0-9]+|[0-9]+-[0-9]+)(,([0-9]+|[0-9]+-[0-9]+))*$ ]]; then
-            echo "Error: Invalid input. Please enter a comma-separated list of ports or a range of ports (e.g. 80,443,2053 or 400-500)." >&2
+            echo "Error: Entrada inválida. Por favor, ingrese una lista de puertos separada por comas o un rango de puertos (ej. 80,443,2053 o 400-500)." >&2
             exit 1
         fi
 
@@ -916,7 +916,7 @@ delete_ports() {
             fi
         done
     else
-        echo "${red}Error:${plain} Invalid choice. Please enter 1 or 2." >&2
+        echo "${red}Error:${plain} Elección inválida. Por favor, ingrese 1 o 2." >&2
         exit 1
     fi
 }
@@ -945,9 +945,9 @@ update_geo() {
     echo -e "${green}\t1.${plain} Loyalsoldier (geoip.dat, geosite.dat)"
     echo -e "${green}\t2.${plain} chocolate4u (geoip_IR.dat, geosite_IR.dat)"
     echo -e "${green}\t3.${plain} runetfreedom (geoip_RU.dat, geosite_RU.dat)"
-    echo -e "${green}\t4.${plain} All"
-    echo -e "${green}\t0.${plain} Back to Main Menu"
-    read -rp "Choose an option: " choice
+    echo -e "${green}\t4.${plain} Todo"
+    echo -e "${green}\t0.${plain} Volver al Menú Principal"
+    read -rp "Elija una opción: " choice
 
     case "$choice" in
     0)
@@ -1004,15 +1004,15 @@ install_acme() {
 }
 
 ssl_cert_issue_main() {
-    echo -e "${green}\t1.${plain} Get SSL (Domain)"
-    echo -e "${green}\t2.${plain} Revoke"
-    echo -e "${green}\t3.${plain} Force Renew"
-    echo -e "${green}\t4.${plain} Show Existing Domains"
-    echo -e "${green}\t5.${plain} Set Cert paths for the panel"
-    echo -e "${green}\t6.${plain} Get SSL for IP Address (6-day cert, auto-renews)"
-    echo -e "${green}\t0.${plain} Back to Main Menu"
+    echo -e "${green}\t1.${plain} Obtener SSL (Dominio)"
+    echo -e "${green}\t2.${plain} Revocar"
+    echo -e "${green}\t3.${plain} Forzar Renovación"
+    echo -e "${green}\t4.${plain} Mostrar Dominios Existentes"
+    echo -e "${green}\t5.${plain} Establecer rutas de Cert para el panel"
+    echo -e "${green}\t6.${plain} Obtener SSL para Dirección IP (cert de 6 días, auto-renovación)"
+    echo -e "${green}\t0.${plain} Volver al Menú Principal"
 
-    read -rp "Choose an option: " choice
+    read -rp "Elija una opción: " choice
     case "$choice" in
     0)
         show_menu
@@ -1026,9 +1026,9 @@ ssl_cert_issue_main() {
         if [ -z "$domains" ]; then
             echo "No certificates found to revoke."
         else
-            echo "Existing domains:"
+            echo "Dominios existentes:"
             echo "$domains"
-            read -rp "Please enter a domain from the list to revoke the certificate: " domain
+            read -rp "Por favor, ingrese un dominio de la lista para revocar el certificado: " domain
             if echo "$domains" | grep -qw "$domain"; then
                 ~/.acme.sh/acme.sh --revoke -d ${domain}
                 LOGI "Certificate revoked for domain: $domain"
@@ -1043,9 +1043,9 @@ ssl_cert_issue_main() {
         if [ -z "$domains" ]; then
             echo "No certificates found to renew."
         else
-            echo "Existing domains:"
+            echo "Dominios existentes:"
             echo "$domains"
-            read -rp "Please enter a domain from the list to renew the SSL certificate: " domain
+            read -rp "Por favor, ingrese un dominio de la lista para renovar el certificado SSL: " domain
             if echo "$domains" | grep -qw "$domain"; then
                 ~/.acme.sh/acme.sh --renew -d ${domain} --force
                 LOGI "Certificate forcefully renewed for domain: $domain"
@@ -1080,9 +1080,9 @@ ssl_cert_issue_main() {
         if [ -z "$domains" ]; then
             echo "No certificates found."
         else
-            echo "Available domains:"
+            echo "Dominios disponibles:"
             echo "$domains"
-            read -rp "Please choose a domain to set the panel paths: " domain
+            read -rp "Por favor, elija un dominio para establecer las rutas del panel: " domain
 
             if echo "$domains" | grep -qw "$domain"; then
                 local webCertFile="/root/cert/${domain}/fullchain.pem"
@@ -1104,11 +1104,11 @@ ssl_cert_issue_main() {
         ssl_cert_issue_main
         ;;
     6)
-        echo -e "${yellow}Let's Encrypt SSL Certificate for IP Address${plain}"
-        echo -e "This will obtain a certificate for your server's IP using the shortlived profile."
-        echo -e "${yellow}Certificate valid for ~6 days, auto-renews via acme.sh cron job.${plain}"
-        echo -e "${yellow}Port 80 must be open and accessible from the internet.${plain}"
-        confirm "Do you want to proceed?" "y"
+        echo -e "${yellow}Certificado SSL de Let's Encrypt para dirección IP${plain}"
+        echo -e "Esto obtendrá un certificado para la IP de su servidor usando el perfil shortlived."
+        echo -e "${yellow}Certificado válido por ~6 días, se renueva automáticamente vía tarea cron de acme.sh.${plain}"
+        echo -e "${yellow}El puerto 80 debe estar abierto y accesible desde internet.${plain}"
+        confirm "¿Desea continuar?" "y"
         if [[ $? == 0 ]]; then
             ssl_cert_issue_for_ip
         fi
@@ -1144,7 +1144,7 @@ ssl_cert_issue_for_ip() {
     
     # Ask for optional IPv6
     local ipv6_addr=""
-    read -rp "Do you have an IPv6 address to include? (leave empty to skip): " ipv6_addr
+    read -rp "¿Tiene una dirección IPv6 para incluir? (deje en blanco para omitir): " ipv6_addr
     ipv6_addr="${ipv6_addr// /}"  # Trim whitespace
     
     # check for acme.sh first
@@ -1199,7 +1199,7 @@ ssl_cert_issue_for_ip() {
     
     # Choose port for HTTP-01 listener (default 80, allow override)
     local WebPort=""
-    read -rp "Port to use for ACME HTTP-01 listener (default 80): " WebPort
+    read -rp "Puerto a usar para el validador ACME HTTP-01 (por defecto 80): " WebPort
     WebPort="${WebPort:-80}"
     if ! [[ "${WebPort}" =~ ^[0-9]+$ ]] || ((WebPort < 1 || WebPort > 65535)); then
         LOGE "Invalid port provided. Falling back to 80."
@@ -1212,10 +1212,10 @@ ssl_cert_issue_for_ip() {
 
     while true; do
         if is_port_in_use "${WebPort}"; then
-            LOGI "Port ${WebPort} is currently in use."
+            LOGI "El puerto ${WebPort} está actualmente en uso."
 
             local alt_port=""
-            read -rp "Enter another port for acme.sh standalone listener (leave empty to abort): " alt_port
+            read -rp "Ingrese otro puerto para el validador standalone de acme.sh (deje vacío para abortar): " alt_port
             alt_port="${alt_port// /}"
             if [[ -z "${alt_port}" ]]; then
                 LOGE "Port ${WebPort} is busy; cannot proceed with issuance."
@@ -1355,7 +1355,7 @@ ssl_cert_issue() {
     # get the domain here, and we need to verify it
     local domain=""
     while true; do
-        read -rp "Please enter your domain name: " domain
+        read -rp "Por favor, ingrese su nombre de dominio: " domain
         domain="${domain// /}"  # Trim whitespace
         
         if [[ -z "$domain" ]]; then
@@ -1394,34 +1394,34 @@ ssl_cert_issue() {
 
     # get the port number for the standalone server
     local WebPort=80
-    read -rp "Please choose which port to use (default is 80): " WebPort
+    read -rp "Por favor, elija qué puerto usar (por defecto es 80): " WebPort
     if [[ ${WebPort} -gt 65535 || ${WebPort} -lt 1 ]]; then
         LOGE "Your input ${WebPort} is invalid, will use default port 80."
         WebPort=80
     fi
-    LOGI "Will use port: ${WebPort} to issue certificates. Please make sure this port is open."
+    LOGI "Se usará el puerto: ${WebPort} para emitir certificados. Por favor, asegúrese de que este puerto esté abierto."
 
     # issue the certificate
     ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt --force
     ~/.acme.sh/acme.sh --issue -d ${domain} --listen-v6 --standalone --httpport ${WebPort} --force
     if [ $? -ne 0 ]; then
-        LOGE "Issuing certificate failed, please check logs."
+        LOGE "La emisión del certificado falló, por favor revise los logs."
         rm -rf ~/.acme.sh/${domain}
         exit 1
     else
-        LOGE "Issuing certificate succeeded, installing certificates..."
+        LOGE "La emisión del certificado fue exitosa, instalando certificados..."
     fi
 
     reloadCmd="x-ui restart"
 
-    LOGI "Default --reloadcmd for ACME is: ${yellow}x-ui restart"
-    LOGI "This command will run on every certificate issue and renew."
-    read -rp "Would you like to modify --reloadcmd for ACME? (y/n): " setReloadcmd
+    LOGI "El --reloadcmd por defecto para ACME es: ${yellow}x-ui restart"
+    LOGI "Este comando se ejecutará en cada emisión y renovación del certificado."
+    read -rp "¿Desea modificar --reloadcmd para ACME? (y/n): " setReloadcmd
     if [[ "$setReloadcmd" == "y" || "$setReloadcmd" == "Y" ]]; then
-        echo -e "\n${green}\t1.${plain} Preset: systemctl reload nginx ; x-ui restart"
-        echo -e "${green}\t2.${plain} Input your own command"
-        echo -e "${green}\t0.${plain} Keep default reloadcmd"
-        read -rp "Choose an option: " choice
+        echo -e "\n${green}\t1.${plain} Preajuste: systemctl reload nginx ; x-ui restart"
+        echo -e "${green}\t2.${plain} Ingresar su propio comando"
+        echo -e "${green}\t0.${plain} Mantener reloadcmd por defecto"
+        read -rp "Elija una opción: " choice
         case "$choice" in
         1)
             LOGI "Reloadcmd is: systemctl reload nginx ; x-ui restart"
@@ -1444,11 +1444,11 @@ ssl_cert_issue() {
         --fullchain-file /root/cert/${domain}/fullchain.pem --reloadcmd "${reloadCmd}"
 
     if [ $? -ne 0 ]; then
-        LOGE "Installing certificate failed, exiting."
+        LOGE "La instalación del certificado falló, saliendo."
         rm -rf ~/.acme.sh/${domain}
         exit 1
     else
-        LOGI "Installing certificate succeeded, enabling auto renew..."
+        LOGI "La instalación del certificado fue exitosa, habilitando la renovación automática..."
     fi
 
     # enable auto-renew
@@ -1467,7 +1467,7 @@ ssl_cert_issue() {
     fi
 
     # Prompt user to set panel paths after successful certificate installation
-    read -rp "Would you like to set this certificate for the panel? (y/n): " setPanel
+    read -rp "¿Desea configurar este certificado para el panel? (y/n): " setPanel
     if [[ "$setPanel" == "y" || "$setPanel" == "Y" ]]; then
         local webCertFile="/root/cert/${domain}/fullchain.pem"
         local webKeyFile="/root/cert/${domain}/privkey.pem"
@@ -1490,15 +1490,15 @@ ssl_cert_issue() {
 ssl_cert_issue_CF() {
     local existing_webBasePath=$(${xui_folder}/x-ui setting -show true | grep -Eo 'webBasePath: .+' | awk '{print $2}')
     local existing_port=$(${xui_folder}/x-ui setting -show true | grep -Eo 'port: .+' | awk '{print $2}')
-    LOGI "****** Instructions for Use ******"
-    LOGI "Follow the steps below to complete the process:"
-    LOGI "1. Cloudflare Registered E-mail."
-    LOGI "2. Cloudflare Global API Key."
-    LOGI "3. The Domain Name."
-    LOGI "4. Once the certificate is issued, you will be prompted to set the certificate for the panel (optional)."
-    LOGI "5. The script also supports automatic renewal of the SSL certificate after installation."
+    LOGI "****** Instrucciones de Uso ******"
+    LOGI "Siga los pasos a continuación para completar el proceso:"
+    LOGI "1. Correo electrónico registrado en Cloudflare."
+    LOGI "2. Global API Key de Cloudflare."
+    LOGI "3. El Nombre de Dominio."
+    LOGI "4. Una vez emitido el certificado, se le pedirá configurar el certificado para el panel (opcional)."
+    LOGI "5. El script también admite la renovación automática del certificado SSL tras la instalación."
 
-    confirm "Do you confirm the information and wish to proceed? [y/n]" "y"
+    confirm "¿Confirma la información y desea continuar? [y/n]" "y"
 
     if [ $? -eq 0 ]; then
         # Check for acme.sh first
@@ -1513,20 +1513,20 @@ ssl_cert_issue_CF() {
 
         CF_Domain=""
 
-        LOGD "Please set a domain name:"
-        read -rp "Input your domain here: " CF_Domain
-        LOGD "Your domain name is set to: ${CF_Domain}"
+        LOGD "Por favor, establezca un nombre de dominio:"
+        read -rp "Ingrese su dominio aquí: " CF_Domain
+        LOGD "Su nombre de dominio se ha establecido en: ${CF_Domain}"
 
         # Set up Cloudflare API details
         CF_GlobalKey=""
         CF_AccountEmail=""
-        LOGD "Please set the API key:"
-        read -rp "Input your key here: " CF_GlobalKey
-        LOGD "Your API key is: ${CF_GlobalKey}"
+        LOGD "Por favor, establezca la API key:"
+        read -rp "Ingrese su key aquí: " CF_GlobalKey
+        LOGD "Su API key es: ${CF_GlobalKey}"
 
-        LOGD "Please set up registered email:"
-        read -rp "Input your email here: " CF_AccountEmail
-        LOGD "Your registered email address is: ${CF_AccountEmail}"
+        LOGD "Por favor, establezca el correo registrado:"
+        read -rp "Ingrese su correo aquí: " CF_AccountEmail
+        LOGD "Su dirección de correo registrada es: ${CF_AccountEmail}"
 
         # Set the default CA to Let's Encrypt
         ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt --force
@@ -1561,9 +1561,9 @@ ssl_cert_issue_CF() {
 
         reloadCmd="x-ui restart"
 
-        LOGI "Default --reloadcmd for ACME is: ${yellow}x-ui restart"
-        LOGI "This command will run on every certificate issue and renew."
-        read -rp "Would you like to modify --reloadcmd for ACME? (y/n): " setReloadcmd
+        LOGI "El --reloadcmd por defecto para ACME es: ${yellow}x-ui restart"
+        LOGI "Este comando se ejecutará en cada emisión y renovación del certificado."
+        read -rp "¿Desea modificar --reloadcmd para ACME? (y/n): " setReloadcmd
         if [[ "$setReloadcmd" == "y" || "$setReloadcmd" == "Y" ]]; then
             echo -e "\n${green}\t1.${plain} Preset: systemctl reload nginx ; x-ui restart"
             echo -e "${green}\t2.${plain} Input your own command"
@@ -1608,7 +1608,7 @@ ssl_cert_issue_CF() {
         fi
 
         # Prompt user to set panel paths after successful certificate installation
-        read -rp "Would you like to set this certificate for the panel? (y/n): " setPanel
+        read -rp "¿Desea configurar este certificado para el panel? (y/n): " setPanel
         if [[ "$setPanel" == "y" || "$setPanel" == "Y" ]]; then
             local webCertFile="${certPath}/fullchain.pem"
             local webKeyFile="${certPath}/privkey.pem"
@@ -1624,7 +1624,7 @@ ssl_cert_issue_CF() {
                 LOGE "Error: Certificate or private key file not found for domain: $CF_Domain."
             fi
         else
-            LOGI "Skipping panel path setting."
+            LOGI "Omitiendo la configuración de las rutas del panel."
         fi
     else
         show_menu
@@ -1637,7 +1637,7 @@ run_speedtest() {
         # If not installed, determine installation method
         if command -v snap &>/dev/null; then
             # Use snap to install Speedtest
-            echo "Installing Speedtest using snap..."
+            echo "Instalando Speedtest usando snap..."
             snap install speedtest
         else
             # Fallback to using package managers
@@ -1659,10 +1659,10 @@ run_speedtest() {
             fi
 
             if [[ -z $pkg_manager ]]; then
-                echo "Error: Package manager not found. You may need to install Speedtest manually."
+                echo "Error: No se encontró el gestor de paquetes. Es posible que deba instalar Speedtest manualmente."
                 return 1
             else
-                echo "Installing Speedtest using $pkg_manager..."
+                echo "Instalando Speedtest usando $pkg_manager..."
                 curl -s $speedtest_install_script | bash
                 $pkg_manager install -y speedtest
             fi
@@ -1680,24 +1680,24 @@ ip_validation() {
 }
 
 iplimit_main() {
-    echo -e "\n${green}\t1.${plain} Install Fail2ban and configure IP Limit"
-    echo -e "${green}\t2.${plain} Change Ban Duration"
-    echo -e "${green}\t3.${plain} Unban Everyone"
-    echo -e "${green}\t4.${plain} Ban Logs"
-    echo -e "${green}\t5.${plain} Ban an IP Address"
-    echo -e "${green}\t6.${plain} Unban an IP Address"
-    echo -e "${green}\t7.${plain} Real-Time Logs"
-    echo -e "${green}\t8.${plain} Service Status"
-    echo -e "${green}\t9.${plain} Service Restart"
-    echo -e "${green}\t10.${plain} Uninstall Fail2ban and IP Limit"
-    echo -e "${green}\t0.${plain} Back to Main Menu"
-    read -rp "Choose an option: " choice
+    echo -e "\n${green}\t1.${plain} Instalar Fail2ban y configurar Límite de IP"
+    echo -e "${green}\t2.${plain} Cambiar Duración del Ban"
+    echo -e "${green}\t3.${plain} Desbanear a Todos"
+    echo -e "${green}\t4.${plain} Logs de Ban"
+    echo -e "${green}\t5.${plain} Banear una dirección IP"
+    echo -e "${green}\t6.${plain} Desbanear una dirección IP"
+    echo -e "${green}\t7.${plain} Logs en Tiempo Real"
+    echo -e "${green}\t8.${plain} Estado del Servicio"
+    echo -e "${green}\t9.${plain} Reiniciar Servicio"
+    echo -e "${green}\t10.${plain} Desinstalar Fail2ban y Límite de IP"
+    echo -e "${green}\t0.${plain} Volver al Menú Principal"
+    read -rp "Elija una opción: " choice
     case "$choice" in
     0)
         show_menu
         ;;
     1)
-        confirm "Proceed with installation of Fail2ban & IP Limit?" "y"
+        confirm "¿Proceder con la instalación de Fail2ban y Límite de IP?" "y"
         if [[ $? == 0 ]]; then
             install_iplimit
         else
@@ -1705,7 +1705,7 @@ iplimit_main() {
         fi
         ;;
     2)
-        read -rp "Please enter new Ban Duration in Minutes [default 30]: " NUM
+        read -rp "Por favor ingrese la nueva Duración del Ban en Minutos [por defecto 30]: " NUM
         if [[ $NUM =~ ^[0-9]+$ ]]; then
             create_iplimit_jails ${NUM}
             if [[ $release == "alpine" ]]; then
@@ -1719,14 +1719,14 @@ iplimit_main() {
         iplimit_main
         ;;
     3)
-        confirm "Proceed with Unbanning everyone from IP Limit jail?" "y"
+        confirm "¿Proceder a desbanear a todos de la cárcel IP Limit?" "y"
         if [[ $? == 0 ]]; then
             fail2ban-client reload --restart --unban 3x-ipl
             truncate -s 0 "${iplimit_banned_log_path}"
-            echo -e "${green}All users Unbanned successfully.${plain}"
+            echo -e "${green}Todos los usuarios desbaneados con éxito.${plain}"
             iplimit_main
         else
-            echo -e "${yellow}Cancelled.${plain}"
+            echo -e "${yellow}Cancelado.${plain}"
         fi
         iplimit_main
         ;;
@@ -1735,7 +1735,7 @@ iplimit_main() {
         iplimit_main
         ;;
     5)
-        read -rp "Enter the IP address you want to ban: " ban_ip
+        read -rp "Ingrese la dirección IP que desea banear: " ban_ip
         ip_validation
         if [[ $ban_ip =~ $ipv4_regex || $ban_ip =~ $ipv6_regex ]]; then
             fail2ban-client set 3x-ipl banip "$ban_ip"
@@ -1746,7 +1746,7 @@ iplimit_main() {
         iplimit_main
         ;;
     6)
-        read -rp "Enter the IP address you want to unban: " unban_ip
+        read -rp "Ingrese la dirección IP que desea desbanear: " unban_ip
         ip_validation
         if [[ $unban_ip =~ $ipv4_regex || $unban_ip =~ $ipv6_regex ]]; then
             fail2ban-client set 3x-ipl unbanip "$unban_ip"
@@ -1881,10 +1881,10 @@ install_iplimit() {
 }
 
 remove_iplimit() {
-    echo -e "${green}\t1.${plain} Only remove IP Limit configurations"
-    echo -e "${green}\t2.${plain} Uninstall Fail2ban and IP Limit"
-    echo -e "${green}\t0.${plain} Back to Main Menu"
-    read -rp "Choose an option: " num
+    echo -e "${green}\t1.${plain} Solo eliminar las configuraciones de Límite de IP"
+    echo -e "${green}\t2.${plain} Desinstalar Fail2ban y Límite de IP"
+    echo -e "${green}\t0.${plain} Volver al Menú Principal"
+    read -rp "Elija una opción: " num
     case "$num" in
     1)
         rm -f /etc/fail2ban/filter.d/3x-ipl.conf
@@ -2096,45 +2096,45 @@ SSH_port_forwarding() {
         before_show_menu
     fi
     if [[ -z "$existing_cert" && -z "$existing_key" && (-z "$existing_listenIP" || "$existing_listenIP" == "0.0.0.0") ]]; then
-        echo -e "\n${red}Warning: No Cert and Key found! The panel is not secure.${plain}"
-        echo "Please obtain a certificate or set up SSH port forwarding."
+        echo -e "\n${red}Advertencia: ¡No se encontró Cert ni Key! El panel no es seguro.${plain}"
+        echo "Por favor, obtenga un certificado o configure el reenvío de puertos SSH."
     fi
 
     if [[ -n "$existing_listenIP" && "$existing_listenIP" != "0.0.0.0" && (-z "$existing_cert" && -z "$existing_key") ]]; then
-        echo -e "\n${green}Current SSH Port Forwarding Configuration:${plain}"
-        echo -e "Standard SSH command:"
+        echo -e "\n${green}Configuración actual de reenvío de puertos SSH:${plain}"
+        echo -e "Comando SSH estándar:"
         echo -e "${yellow}ssh -L 2222:${existing_listenIP}:${existing_port} root@${server_ip}${plain}"
-        echo -e "\nIf using SSH key:"
-        echo -e "${yellow}ssh -i <sshkeypath> -L 2222:${existing_listenIP}:${existing_port} root@${server_ip}${plain}"
-        echo -e "\nAfter connecting, access the panel at:"
+        echo -e "\nSi usa llave SSH:"
+        echo -e "${yellow}ssh -i <rutallave> -L 2222:${existing_listenIP}:${existing_port} root@${server_ip}${plain}"
+        echo -e "\nDespués de conectar, acceda al panel en:"
         echo -e "${yellow}http://localhost:2222${existing_webBasePath}${plain}"
     fi
 
-    echo -e "\nChoose an option:"
-    echo -e "${green}1.${plain} Set listen IP"
-    echo -e "${green}2.${plain} Clear listen IP"
-    echo -e "${green}0.${plain} Back to Main Menu"
-    read -rp "Choose an option: " num
+    echo -e "\nElija una opción:"
+    echo -e "${green}1.${plain} Establecer IP de escucha"
+    echo -e "${green}2.${plain} Limpiar IP de escucha"
+    echo -e "${green}0.${plain} Volver al Menú Principal"
+    read -rp "Elija una opción: " num
 
     case "$num" in
     1)
         if [[ -z "$existing_listenIP" || "$existing_listenIP" == "0.0.0.0" ]]; then
-            echo -e "\nNo listenIP configured. Choose an option:"
-            echo -e "1. Use default IP (127.0.0.1)"
-            echo -e "2. Set a custom IP"
-            read -rp "Select an option (1 or 2): " listen_choice
+            echo -e "\nNo hay listenIP configurada. Elija una opción:"
+            echo -e "1. Usar IP por defecto (127.0.0.1)"
+            echo -e "2. Establecer una IP personalizada"
+            read -rp "Seleccione una opción (1 o 2): " listen_choice
 
             config_listenIP="127.0.0.1"
-            [[ "$listen_choice" == "2" ]] && read -rp "Enter custom IP to listen on: " config_listenIP
+            [[ "$listen_choice" == "2" ]] && read -rp "Ingrese la IP personalizada para escuchar: " config_listenIP
 
             ${xui_folder}/x-ui setting -listenIP "${config_listenIP}" >/dev/null 2>&1
-            echo -e "${green}listen IP has been set to ${config_listenIP}.${plain}"
-            echo -e "\n${green}SSH Port Forwarding Configuration:${plain}"
-            echo -e "Standard SSH command:"
+            echo -e "${green}La IP de escucha se ha establecido en ${config_listenIP}.${plain}"
+            echo -e "\n${green}Configuración de reenvío de puertos SSH:${plain}"
+            echo -e "Comando SSH estándar:"
             echo -e "${yellow}ssh -L 2222:${config_listenIP}:${existing_port} root@${server_ip}${plain}"
-            echo -e "\nIf using SSH key:"
-            echo -e "${yellow}ssh -i <sshkeypath> -L 2222:${config_listenIP}:${existing_port} root@${server_ip}${plain}"
-            echo -e "\nAfter connecting, access the panel at:"
+            echo -e "\nSi usa llave SSH:"
+            echo -e "${yellow}ssh -i <rutallave> -L 2222:${config_listenIP}:${existing_port} root@${server_ip}${plain}"
+            echo -e "\nDespués de conectar, acceda al panel en:"
             echo -e "${yellow}http://localhost:2222${existing_webBasePath}${plain}"
             restart
         else
@@ -2144,14 +2144,14 @@ SSH_port_forwarding() {
         ;;
     2)
         ${xui_folder}/x-ui setting -listenIP 0.0.0.0 >/dev/null 2>&1
-        echo -e "${green}Listen IP has been cleared.${plain}"
+        echo -e "${green}La IP de escucha ha sido limpiada.${plain}"
         restart
         ;;
     0)
         show_menu
         ;;
     *)
-        echo -e "${red}Invalid option. Please select a valid number.${plain}\n"
+        echo -e "${red}Opción inválida. Por favor seleccione un número válido.${plain}\n"
         SSH_port_forwarding
         ;;
     esac
@@ -2159,68 +2159,67 @@ SSH_port_forwarding() {
 
 show_usage() {
     echo -e "┌────────────────────────────────────────────────────────────────┐
-│  ${blue}x-ui control menu usages (subcommands):${plain}                       │
+│  ${blue}usos del menú de control de x-ui (subcomandos):${plain}               │
 │                                                                │
-│  ${blue}x-ui${plain}                       - Admin Management Script          │
-│  ${blue}x-ui start${plain}                 - Start                            │
-│  ${blue}x-ui stop${plain}                  - Stop                             │
-│  ${blue}x-ui restart${plain}               - Restart                          │
-|  ${blue}x-ui restart-xray${plain}          - Restart Xray                     │
-│  ${blue}x-ui status${plain}                - Current Status                   │
-│  ${blue}x-ui settings${plain}              - Current Settings                 │
-│  ${blue}x-ui enable${plain}                - Enable Autostart on OS Startup   │
-│  ${blue}x-ui disable${plain}               - Disable Autostart on OS Startup  │
-│  ${blue}x-ui log${plain}                   - Check logs                       │
-│  ${blue}x-ui banlog${plain}                - Check Fail2ban ban logs          │
-│  ${blue}x-ui update${plain}                - Update                           │
-│  ${blue}x-ui update-all-geofiles${plain}   - Update all geo files             │
-│  ${blue}x-ui legacy${plain}                - Legacy version                   │
-│  ${blue}x-ui install${plain}               - Install                          │
-│  ${blue}x-ui uninstall${plain}             - Uninstall                        │
-└────────────────────────────────────────────────────────────────┘"
+│  ${blue}x-ui${plain}                       - Script de Gestión de Admin       │
+│  ${blue}x-ui start${plain}                 - Iniciar                          │
+│  ${blue}x-ui stop${plain}                  - Detener                          │
+│  ${blue}x-ui restart${plain}               - Reiniciar                        │
+|  ${blue}x-ui restart-xray${plain}          - Reiniciar Xray                   │
+│  ${blue}x-ui status${plain}                - Estado Actual                    │
+│  ${blue}x-ui settings${plain}              - Configuración Actual             │
+│  ${blue}x-ui enable${plain}                - Habilitar Inicio Automático      │
+│  ${blue}x-ui disable${plain}               - Deshabilitar Inicio Automático   │
+"
 }
 
 show_menu() {
     echo -e "
-╔────────────────────────────────────────────────╗
-│   ${green}3X-UI Panel Management Script${plain}                │
-│   ${green}0.${plain} Exit Script                               │
-│────────────────────────────────────────────────│
-│   ${green}1.${plain} Install                                   │
-│   ${green}2.${plain} Update                                    │
-│   ${green}3.${plain} Update Menu                               │
-│   ${green}4.${plain} Legacy Version                            │
-│   ${green}5.${plain} Uninstall                                 │
-│────────────────────────────────────────────────│
-│   ${green}6.${plain} Reset Username & Password                 │
-│   ${green}7.${plain} Reset Web Base Path                       │
-│   ${green}8.${plain} Reset Settings                            │
-│   ${green}9.${plain} Change Port                               │
-│  ${green}10.${plain} View Current Settings                     │
-│────────────────────────────────────────────────│
-│  ${green}11.${plain} Start                                     │
-│  ${green}12.${plain} Stop                                      │
-│  ${green}13.${plain} Restart                                   │
-|  ${green}14.${plain} Restart Xray                              │
-│  ${green}15.${plain} Check Status                              │
-│  ${green}16.${plain} Logs Management                           │
-│────────────────────────────────────────────────│
-│  ${green}17.${plain} Enable Autostart                          │
-│  ${green}18.${plain} Disable Autostart                         │
-│────────────────────────────────────────────────│
-│  ${green}19.${plain} SSL Certificate Management                │
-│  ${green}20.${plain} Cloudflare SSL Certificate                │
-│  ${green}21.${plain} IP Limit Management                       │
-│  ${green}22.${plain} Firewall Management                       │
-│  ${green}23.${plain} SSH Port Forwarding Management            │
-│────────────────────────────────────────────────│
-│  ${green}24.${plain} Enable BBR                                │
-│  ${green}25.${plain} Update Geo Files                          │
-│  ${green}26.${plain} Speedtest by Ookla                        │
-╚────────────────────────────────────────────────╝
+${blue}  _  __ _____            _  __ ______ _____  ${plain}
+${blue} | |/ /|  __ \    /\    | |/ /|  ____|  __ \ ${plain}
+${blue} | ' / | |__) |  /  \   | ' / | |__  | |__) |${plain}
+${blue} |  <  |  _  /  / /\ \  |  <  |  __| |  _  / ${plain}
+${blue} | . \ | | \ \ / ____ \ | . \ | |____| | \ \ ${plain}
+${blue} |_|\_\|_|  \_/_/    \_\_|\_\|______|_|  \_\${plain}
+
+${green}Panel de Gestión KRAKER X-UI (Español)${plain}
+${green}0.${plain} Salir del Script
+${blue}────────────────────────────────────────────────${plain}
+${green}1.${plain} Instalar
+${green}2.${plain} Actualizar
+${green}3.${plain} Actualizar Menú
+${green}4.${plain} Versión Antigua
+${green}5.${plain} Desinstalar
+${blue}────────────────────────────────────────────────${plain}
+${green}6.${plain} Restablecer Usuario y Contraseña
+${green}7.${plain} Restablecer Ruta Base Web
+${green}8.${plain} Restablecer Configuración
+${green}9.${plain} Cambiar Puerto
+${green}10.${plain} Ver Configuración Actual
+${blue}────────────────────────────────────────────────${plain}
+${green}11.${plain} Iniciar
+${green}12.${plain} Detener
+${green}13.${plain} Reiniciar
+${green}14.${plain} Reiniciar Xray
+${green}15.${plain} Verificar Estado
+${green}16.${plain} Gestión de Logs
+${blue}────────────────────────────────────────────────${plain}
+${green}17.${plain} Habilitar Inicio Automático
+${green}18.${plain} Deshabilitar Inicio Automático
+${blue}────────────────────────────────────────────────${plain}
+${green}19.${plain} Gestión de Certificado SSL
+${green}20.${plain} Certificado SSL Cloudflare
+${green}21.${plain} Gestión de Límite de IP
+${green}22.${plain} Gestión de Firewall
+${green}23.${plain} Gestión de Reenvío de Puertos SSH
+${blue}────────────────────────────────────────────────${plain}
+${green}24.${plain} Habilitar BBR
+${green}25.${plain} Actualizar Archivos Geo
+${green}26.${plain} Prueba de Velocidad Ookla
+${blue}────────────────────────────────────────────────${plain}
 "
     show_status
-    echo && read -rp "Please enter your selection [0-26]: " num
+    echo && read -rp "Ingrese su selección [0-26]: " num
 
     case "${num}" in
     0)
@@ -2305,7 +2304,7 @@ show_menu() {
         run_speedtest
         ;;
     *)
-        LOGE "Please enter the correct number [0-26]"
+        LOGE "Por favor ingrese el número correcto [0-26]"
         ;;
     esac
 }

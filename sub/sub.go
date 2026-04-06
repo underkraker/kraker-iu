@@ -1,4 +1,4 @@
-// Package sub provides subscription server functionality for the 3x-ui panel,
+// Package sub provides subscription server functionality for the KRAKER X-UI panel,
 // including HTTP/HTTPS servers for serving subscription links and JSON configurations.
 package sub
 
@@ -15,13 +15,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/util/common"
-	webpkg "github.com/mhsanaei/3x-ui/v2/web"
-	"github.com/mhsanaei/3x-ui/v2/web/locale"
-	"github.com/mhsanaei/3x-ui/v2/web/middleware"
-	"github.com/mhsanaei/3x-ui/v2/web/network"
-	"github.com/mhsanaei/3x-ui/v2/web/service"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/util/common"
+	webpkg "github.com/underkraker/kraker-iu/web"
+	"github.com/underkraker/kraker-iu/web/locale"
+	"github.com/underkraker/kraker-iu/web/middleware"
+	"github.com/underkraker/kraker-iu/web/network"
+	"github.com/underkraker/kraker-iu/web/service"
 
 	"github.com/gin-gonic/gin"
 )

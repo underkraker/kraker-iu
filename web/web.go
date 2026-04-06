@@ -1,4 +1,4 @@
-// Package web provides the main web server implementation for the 3x-ui panel,
+// Package web provides the main web server implementation for the KRAKER X-UI panel,
 // including HTTP/HTTPS serving, routing, templates, and background job scheduling.
 package web
 
@@ -16,16 +16,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v2/config"
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/util/common"
-	"github.com/mhsanaei/3x-ui/v2/web/controller"
-	"github.com/mhsanaei/3x-ui/v2/web/job"
-	"github.com/mhsanaei/3x-ui/v2/web/locale"
-	"github.com/mhsanaei/3x-ui/v2/web/middleware"
-	"github.com/mhsanaei/3x-ui/v2/web/network"
-	"github.com/mhsanaei/3x-ui/v2/web/service"
-	"github.com/mhsanaei/3x-ui/v2/web/websocket"
+	"github.com/underkraker/kraker-iu/config"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/util/common"
+	"github.com/underkraker/kraker-iu/web/controller"
+	"github.com/underkraker/kraker-iu/web/job"
+	"github.com/underkraker/kraker-iu/web/locale"
+	"github.com/underkraker/kraker-iu/web/middleware"
+	"github.com/underkraker/kraker-iu/web/network"
+	"github.com/underkraker/kraker-iu/web/service"
+	"github.com/underkraker/kraker-iu/web/websocket"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/sessions"
@@ -91,7 +91,7 @@ func EmbeddedAssets() embed.FS {
 	return assetsFS
 }
 
-// Server represents the main web server for the 3x-ui panel with controllers, services, and scheduled jobs.
+// Server represents the main web server for the KRAKER X-UI panel with controllers, services, and scheduled jobs.
 type Server struct {
 	httpServer *http.Server
 	listener   net.Listener
@@ -213,7 +213,7 @@ func (s *Server) initRouter() (*gin.Engine, error) {
 			SameSite: http.SameSiteLaxMode,
 		})
 	}
-	engine.Use(sessions.Sessions("3x-ui", store))
+	engine.Use(sessions.Sessions("KRAKER X-UI", store))
 	engine.Use(func(c *gin.Context) {
 		c.Set("base_path", basePath)
 	})

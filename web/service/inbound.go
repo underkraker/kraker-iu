@@ -1,4 +1,4 @@
-// Package service provides business logic services for the 3x-ui web panel,
+// Package service provides business logic services for the KRAKER X-UI web panel,
 // including inbound/outbound management, user administration, settings, and Xray integration.
 package service
 
@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mhsanaei/3x-ui/v2/database"
-	"github.com/mhsanaei/3x-ui/v2/database/model"
-	"github.com/mhsanaei/3x-ui/v2/logger"
-	"github.com/mhsanaei/3x-ui/v2/util/common"
-	"github.com/mhsanaei/3x-ui/v2/xray"
+	"github.com/underkraker/kraker-iu/database"
+	"github.com/underkraker/kraker-iu/database/model"
+	"github.com/underkraker/kraker-iu/logger"
+	"github.com/underkraker/kraker-iu/util/common"
+	"github.com/underkraker/kraker-iu/xray"
 
 	"gorm.io/gorm"
 )
